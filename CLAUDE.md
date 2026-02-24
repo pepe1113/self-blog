@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+繁體中文回答我
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Commands
@@ -30,6 +32,7 @@ Blog posts live in `src/content/` as Markdown/MDX files. The content schema is d
 ### Custom Markdown Plugins (`src/plugins/`)
 
 Eleven custom plugins extend standard Markdown:
+
 - `remark-github-card` — embed GitHub repo cards
 - `remark-admonitions` — callout/admonition blocks
 - `remark-character-dialogue` — character speech bubbles
