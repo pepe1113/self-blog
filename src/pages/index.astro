@@ -1,0 +1,105 @@
+---
+import Layout from '~/layouts/Layout.astro'
+import { getSortedPosts } from '~/utils'
+import { getCollection, render } from 'astro:content'
+import PostPreview from '~/components/PostPreview.astro'
+import BlockHeader from '~/components/BlockHeader.astro'
+import HomeBanner from '~/components/HomeBanner.astro'
+import siteConfig from '~/site.config'
+import TagsSection from '~/components/TagsSection.astro'
+import SeriesSection from '~/components/SeriesSection.astro'
+
+const home = await getCollection('home')
+let HomeContent
+let homeAvatarImage
+let homeGithubCalendar
+if (home.length > 0) {
+  const homeEntry = home[0]
+  const { Content } = await render(homeEntry)
+  HomeContent = Content
+  homeAvatarImage = homeEntry.data.avatarImage
+  homeGithubCalendar = homeEntry.data.githubCalendar
+}
+const sortedPosts = await getSortedPosts()
+const postsHaveTags = sortedPosts.some(
+  (post) => post.data.tags && post.data.tags.length > 0,
+)
+
+const postsHaveSeries = sortedPosts.some((post) => post.data.series)
+---
+
+<Layout>
+  {
+    HomeContent && (
+      <HomeBanner avatarImage={homeAvatarImage} githubCalendar={homeGithubCalendar}>
+        <HomeContent />
+      </HomeBanner>
+    )
+  }
+  {
+    postsHaveSeries && (
+      <section>
+        <BlockHeader>Series</BlockHeader>
+        <SeriesSection posts={sortedPosts} />
+      </section>
+    )
+  }
+  {
+    postsHaveTags && (
+      <section>
+        <BlockHeader>Tags</BlockHeader>
+        <TagsSection posts={sortedPosts} />
+      </section>
+    )
+  }
+  {
+    sortedPosts.length > 0 && (
+      <section>
+        <BlockHeader>Latest Posts</BlockHeader>
+        {sortedPosts
+          .slice()
+          .reverse()
+          .map((post, i) => (
+            <div data-lazy={i >= Math.floor(siteConfig.pageSize / 2) ? '' : undefined} class={i >= Math.floor(siteConfig.pageSize / 2) ? 'hidden' : undefined}>
+              <PostPreview post={post} />
+            </div>
+          ))}
+        <div id="lazy-sentinel" aria-hidden="true" />
+      </section>
+    )
+  }
+</Layout>
+
+<script>
+  const sentinel = document.getElementById('lazy-sentinel')
+  const batchSize = 3
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (!entries[0].isIntersecting) return
+
+      const hidden = [...document.querySelectorAll('[data-lazy].hidden')] as HTMLElement[]
+      if (hidden.length === 0) {
+        observer.disconnect()
+        sentinel?.remove()
+        return
+      }
+
+      hidden.slice(0, batchSize).forEach((el) => el.classList.remove('hidden'))
+
+      if (hidden.length <= batchSize) {
+        observer.disconnect()
+        sentinel?.remove()
+      }
+    },
+    { rootMargin: '200px' },
+  )
+
+  if (sentinel) observer.observe(sentinel)
+</script>
+
+<style is:global>
+  a.heading-anchor {
+    display: none !important;
+  }
+</style>

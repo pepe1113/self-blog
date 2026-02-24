@@ -1,0 +1,31 @@
+<div
+  id="reading-progress"
+  class="fixed top-0 left-0 h-1.25 w-0 z-50 bg-accent transition-none"
+  aria-hidden="true"
+>
+</div>
+
+<script>
+  function init() {
+    const bar = document.getElementById('reading-progress') as HTMLElement | null
+    if (!bar) return
+
+    const article = document.querySelector(
+      'article[data-pagefind-body]',
+    ) as HTMLElement | null
+    if (!article) return
+
+    function update() {
+      const articleTop = article!.offsetTop
+      const articleHeight = article!.offsetHeight
+      const scrolled = window.scrollY - articleTop
+      const progress = Math.min(Math.max(scrolled / articleHeight, 0), 1)
+      bar!.style.width = `${progress * 100}%`
+    }
+
+    window.addEventListener('scroll', update, { passive: true })
+    update()
+  }
+
+  init()
+</script>

@@ -1,0 +1,28 @@
+---
+import type { FrontmatterImage } from '~/types'
+import { Image } from 'astro:assets'
+
+interface Props {
+  avatarImage?: FrontmatterImage
+}
+const { avatarImage } = Astro.props
+---
+
+<div
+  class="flex flex-col sm:flex-row items-center justify-center sm:gap-5 max-w-full mb-6 p-6 bg-accent/8 p-4 rounded-xl"
+>
+  <!-- {
+    avatarImage && (
+      <Image
+        src={avatarImage.src}
+        alt={avatarImage.alt}
+        class="rounded-full border-3 border-accent/15 size-15 aspect-square box-content shrink-0"
+      />
+    )
+  } -->
+  <div>
+    <div class:list={['text-sm max-w-full prose']}>
+      <slot />
+    </div>
+  </div>
+</div>

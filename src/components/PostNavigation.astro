@@ -1,0 +1,41 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import IconChevronLeft from '~/icons/chevrons-left.svg'
+import IconChevronRight from '~/icons/chevrons-right.svg'
+
+interface Props {
+  prev?: CollectionEntry<'posts'>
+  next?: CollectionEntry<'posts'>
+}
+
+const { prev, next } = Astro.props
+---
+
+{
+  (prev || next) && (
+    <nav class="grid grid-cols-2 mt-8 mb-2 border border-accent/20 rounded overflow-hidden text-sm font-mono">
+      {prev ? (
+        <a href={`/posts/${prev.id}`} class="flex flex-col gap-1.5 p-4 hover:bg-accent/5 transition-colors border-r border-accent/20">
+          <span class="flex items-center gap-1 text-foreground font-semibold">
+            <IconChevronLeft class="size-3.5 shrink-0" />
+            Previous Post
+          </span>
+          <span class="text-accent leading-snug">{prev.data.title}</span>
+        </a>
+      ) : (
+        <div class="border-r border-accent/20" />
+      )}
+      {next ? (
+        <a href={`/posts/${next.id}`} class="flex flex-col gap-1.5 p-4 hover:bg-accent/5 transition-colors items-end text-right">
+          <span class="flex items-center gap-1 text-foreground font-semibold">
+            Next Post
+            <IconChevronRight class="size-3.5 shrink-0" />
+          </span>
+          <span class="text-accent leading-snug">{next.data.title}</span>
+        </a>
+      ) : (
+        <div />
+      )}
+    </nav>
+  )
+}
