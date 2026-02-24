@@ -26,3 +26,7 @@ pnpm-debug.log*
 example/
 # Local Netlify folder
 .netlify
+
+# ai prompt files
+.claude/
+CLAUDE.md
