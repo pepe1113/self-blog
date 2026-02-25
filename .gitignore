@@ -30,3 +30,4 @@ example/
 # ai prompt files
 .claude/
 CLAUDE.md
+src/content/posts/.obsidian
