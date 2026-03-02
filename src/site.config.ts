@@ -4,7 +4,7 @@ const config: SiteConfig = {
   // Absolute URL to the root of your published site, used for generating links and sitemaps.
   site: 'https://peiwww-blog.netlify.app',
   // The name of your site, used in the title and for SEO.
-  title: "Pei's Blog",
+  title: "👽 Pei's Blog",
   // The description of your site, used for SEO and RSS feed.
   description: '',
   // The author of the site, used in the footer, SEO, and RSS feed.
@@ -43,18 +43,8 @@ const config: SiteConfig = {
   // The theming configuration for the site.
   themes: {
     // The theming mode. One of "single" | "select" | "light-dark-auto".
-    mode: 'select',
-    // The default theme identifier, used when themeMode is "select" or "light-dark-auto".
-    // Make sure this is one of the themes listed in `themes` or "auto" for "light-dark-auto" mode.
-    default: 'catppuccin-mocha',
-    // Shiki themes to bundle with the site.
-    // https://expressive-code.com/guides/themes/#using-bundled-themes
-    // These will be used to theme the entire site along with syntax highlighting.
-    // To use light-dark-auto mode, only include a light and a dark theme in that order.
-    // include: [
-    //   'github-light',
-    //   'github-dark',
-    // ]
+    mode: 'single',
+    default: 'slack-ochin',
     include: [
       'andromeeda',
       'aurora-x',
